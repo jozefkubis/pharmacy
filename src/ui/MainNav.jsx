@@ -7,6 +7,7 @@ import {
   HiOutlineCurrencyEuro,
   HiOutlineShoppingCart,
 } from "react-icons/hi2"
+import { GiMedicines } from "react-icons/gi"
 
 const NavList = styled.ul`
   display: flex;
@@ -70,9 +71,9 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/warehousestore">
-            <HiOutlineShoppingCart />
-            <span>Warehouse Store</span>
+          <StyledNavLink to="/pharmacy">
+            <GiMedicines />
+            <span>Pharmacy</span>
           </StyledNavLink>
         </li>
         <li>
