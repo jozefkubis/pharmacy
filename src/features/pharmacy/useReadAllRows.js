@@ -4,12 +4,12 @@ import { getPharmacy } from "../../services/apiPharmacy"
 export function useReadAllRows() {
   const {
     isLoading,
-    data: pharmacy,
+    data: pharmacyData,
     error,
   } = useQuery({
     queryKey: ["pharmacy"],
     queryFn: getPharmacy,
   })
 
-  return { isLoading, pharmacy, error }
+  return { isLoading, pharmacyData, error }
 }

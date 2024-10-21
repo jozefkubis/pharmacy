@@ -8,6 +8,5 @@ export async function getPharmacy() {
     throw new Error("Medications could not be loaded!")
   }
 
-  console.log(data)
   return data
 }
