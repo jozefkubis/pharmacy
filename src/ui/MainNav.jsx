@@ -5,7 +5,7 @@ import {
   HiOutlineUsers,
   HiOutlineCog6Tooth,
   HiOutlineCurrencyEuro,
-  HiOutlineShoppingCart,
+  // HiOutlineShoppingCart,
 } from "react-icons/hi2"
 import { GiMedicines } from "react-icons/gi"
 
