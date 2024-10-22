@@ -4,6 +4,8 @@ import Button from "../../ui/Button"
 import FileInput from "../../ui/FileInput"
 import Textarea from "../../ui/Textarea"
 import Form from "../../ui/Form"
+import { useInsertItem } from "./useInsertItem"
+import { useForm } from "react-hook-form"
 
 const FormRow = styled.div`
   display: grid;
@@ -36,40 +38,92 @@ const Label = styled.label`
 // `
 
 function CreateStoreForm() {
+  const { handleSubmit, register, reset } = useForm()
+
+  const { isInserting, insertItem } = useInsertItem()
+
+  function onSubmit(data) {
+    insertItem(data)
+    reset()
+    console.log(data)
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow>
         <Label htmlFor="code">Code</Label>
-        <Input type="number" id="code" />
+        <Input
+          type="number"
+          id="code"
+          disabled={isInserting}
+          {...register("code", {
+            required: "This field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="name">Name</Label>
-        <Input type="text" id="name" />
+        <Label htmlFor="name">Medication</Label>
+        <Input
+          type="text"
+          id="name"
+          disabled={isInserting}
+          {...register("name", {
+            required: "This field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="NoOfPcs">No. of pcs</Label>
-        <Input type="number" id="NoOfPcs" />
+        <Label htmlFor="prescription">Prescription</Label>
+        <Input
+          type="text"
+          id="prescription"
+          disabled={isInserting}
+          {...register("prescription", {
+            required: "This field is required",
+          })}
+        />
+      </FormRow>
+
+      <FormRow>
+        <Label htmlFor="description">Group of drugs</Label>
+        <Textarea
+          type="text"
+          id="description"
+          disabled={isInserting}
+          {...register("description", {
+            required: "This field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
         <Label htmlFor="regularPrice">Price</Label>
-        <Input type="number" id="regularPrice" />
+        <Input
+          type="number"
+          id="regularPrice"
+          disabled={isInserting}
+          {...register("regularPrice", {
+            required: "This field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
         <Label htmlFor="discount">Discount</Label>
-        <Input type="number" id="discount" defaultValue={0} />
+        <Input
+          type="number"
+          id="discount"
+          disabled={isInserting}
+          {...register("discount", {
+            required: "This field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
-        <Label htmlFor="description">Description of Item</Label>
-        <Textarea type="text" id="description" defaultValue="" />
-      </FormRow>
-
-      <FormRow>
-        <Label htmlFor="image">Item image</Label>
+        <Label htmlFor="image">Image</Label>
         <FileInput id="image" accept="image/*" />
       </FormRow>
 
@@ -79,7 +133,7 @@ function CreateStoreForm() {
           Cancel
         </Button>
 
-        <Button>Edit item</Button>
+        <Button disabled={isInserting}>Insert item</Button>
       </FormRow>
     </Form>
   )
