@@ -14,7 +14,7 @@ const Table = styled.div`
 
 const TableHeader = styled.header`
   display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 0.6fr 1.5fr 1.5fr 1.5fr 1fr 1fr 1fr 1fr;
   column-gap: 2.4rem;
   align-items: center;
 
@@ -42,6 +42,7 @@ function PharmacyTable() {
         <Div>Code</Div>
         <Div>Medication</Div>
         <Div>Prescription</Div>
+        <Div>Group</Div>
         <Div>Price</Div>
         <Div>Discount</Div>
         <Div></Div>

@@ -1,9 +1,10 @@
 import styled from "styled-components"
 import { formatCurrency } from "../../utils/helpers"
+import { useDeleteRow } from "./useDeleteRow"
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 0.6fr 1.5fr 1.5fr 1.5fr 1fr 1fr 1fr 1fr;
   column-gap: 2.4rem;
   align-items: center;
   padding: 1.4rem 2.4rem;
@@ -52,12 +53,14 @@ const Span = styled.span`
 `
 
 function PharmacyRow({ pharmacy }) {
+  const { isDeleting, deleteRow } = useDeleteRow()
+
   const {
-    // id: medicationId,
+    id: medicationId,
     code,
     name,
     prescription,
-    // description,
+    description,
     regularPrice,
     discount,
     image,
@@ -70,7 +73,7 @@ function PharmacyRow({ pharmacy }) {
         <StoreItem>{code}</StoreItem>
         <Div>{name}</Div>
         <Div>{prescription === true ? "Yes" : "No"}</Div>
-        {/* <Div>{description}</Div> */}
+        <Div>{description}</Div>
         <Price>{formatCurrency(regularPrice)}</Price>
         {discount ? (
           <Discount>{formatCurrency(discount)}</Discount>
@@ -81,7 +84,9 @@ function PharmacyRow({ pharmacy }) {
         <Div>
           <button>Edit</button>
           <button>Duplicate</button>
-          <button>Delete</button>
+          <button onClick={() => deleteRow(medicationId)} disabled={isDeleting}>
+            Delete
+          </button>
         </Div>
       </TableRow>
     </>
