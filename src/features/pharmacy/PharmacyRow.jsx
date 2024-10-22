@@ -1,10 +1,11 @@
 import styled from "styled-components"
 import { formatCurrency } from "../../utils/helpers"
 import { useDeleteRow } from "./useDeleteRow"
+import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2"
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 0.6fr 1.5fr 1.5fr 1.5fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 0.6fr 1.5fr 1.5fr 1fr 1.5fr 1fr 1fr;
   column-gap: 2.4rem;
   align-items: center;
   padding: 1.4rem 2.4rem;
@@ -82,10 +83,14 @@ function PharmacyRow({ pharmacy }) {
         )}
 
         <Div>
-          <button>Edit</button>
-          <button>Duplicate</button>
+          <button>
+            <HiPencil />
+          </button>
+          <button>
+            <HiSquare2Stack />
+          </button>
           <button onClick={() => deleteRow(medicationId)} disabled={isDeleting}>
-            Delete
+            <HiTrash />
           </button>
         </Div>
       </TableRow>

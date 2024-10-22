@@ -18,9 +18,8 @@ function CreateStoreForm() {
   const { isInserting, insertItem } = useInsertItem()
 
   function onSubmit(data) {
-    insertItem(data)
+    insertItem({ ...data, image: data.image[0] })
     reset()
-    console.log(data)
   }
 
   function onError(errors) {
@@ -96,7 +95,13 @@ function CreateStoreForm() {
       </FormRow>
 
       <FormRow label>
-        <FileInput id="image" accept="image/*" />
+        <FileInput
+          id="image"
+          accept="image/*"
+          {...register("image", {
+            required: "This field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>

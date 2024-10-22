@@ -1,4 +1,4 @@
-import supabase from "./supabase"
+import supabase, { supabaseUrl } from "./supabase"
 
 // MARK: ziskanie vsetkych dat z databazy
 export async function getPharmacy() {
@@ -14,9 +14,29 @@ export async function getPharmacy() {
 
 // MARK: pridanie novej polozky do databazy
 export async function insertPharmacyItem(newMedication) {
+  let imagePath = newMedication.image
+
+  if (newMedication.image instanceof File) {
+    const imageName = `${Math.random()}-${newMedication.image.name}`.replaceAll(
+      "/",
+      ""
+    )
+
+    imagePath = `${supabaseUrl}/storage/v1/object/public/medications/${imageName}`
+
+    const { error: storageError } = await supabase.storage
+      .from("medications")
+      .upload(imageName, newMedication.image)
+
+    if (storageError) {
+      console.error(storageError)
+      throw new Error("Image could not be uploaded!")
+    }
+  }
+
   const { data, error } = await supabase
     .from("pharmacy")
-    .insert([newMedication])
+    .insert([{ ...newMedication, image: imagePath }])
     .select()
 
   if (error) {
