@@ -1,4 +1,3 @@
-import styled from "styled-components"
 import Input from "../../ui/Input"
 import Button from "../../ui/Button"
 import FileInput from "../../ui/FileInput"
@@ -6,39 +5,15 @@ import Textarea from "../../ui/Textarea"
 import Form from "../../ui/Form"
 import { useInsertItem } from "./useInsertItem"
 import { useForm } from "react-hook-form"
-
-const FormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
-  padding: 1.2rem 0;
-  &:first-child {
-    padding-top: 0;
-  }
-  &:last-child {
-    padding-bottom: 0;
-  }
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`
-const Label = styled.label`
-  font-weight: 500;
-`
-
-// const Error = styled.span`
-//   font-size: 1.4rem;
-//   color: var(--color-red-700);
-// `
+import FormRow from "../../ui/FormRow"
 
 function CreateStoreForm() {
-  const { handleSubmit, register, reset } = useForm()
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm()
 
   const { isInserting, insertItem } = useInsertItem()
 
@@ -48,10 +23,13 @@ function CreateStoreForm() {
     console.log(data)
   }
 
+  function onError(errors) {
+    console.log(errors)
+  }
+
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow>
-        <Label htmlFor="code">Code</Label>
+    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+      <FormRow label="Code" error={errors.code?.message}>
         <Input
           type="number"
           id="code"
@@ -62,8 +40,7 @@ function CreateStoreForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="name">Medication</Label>
+      <FormRow label="Medication" error={errors.name?.message}>
         <Input
           type="text"
           id="name"
@@ -74,8 +51,7 @@ function CreateStoreForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="prescription">Prescription</Label>
+      <FormRow label="Prescription" error={errors.prescription?.message}>
         <Input
           type="text"
           id="prescription"
@@ -86,8 +62,7 @@ function CreateStoreForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="description">Group of drugs</Label>
+      <FormRow label="Group of drugs" error={errors.description?.message}>
         <Textarea
           type="text"
           id="description"
@@ -98,8 +73,7 @@ function CreateStoreForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="regularPrice">Price</Label>
+      <FormRow label="Price" error={errors.regularPrice?.message}>
         <Input
           type="number"
           id="regularPrice"
@@ -110,8 +84,7 @@ function CreateStoreForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="discount">Discount</Label>
+      <FormRow label="Discount" error={errors.discount?.message}>
         <Input
           type="number"
           id="discount"
@@ -122,8 +95,7 @@ function CreateStoreForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="image">Image</Label>
+      <FormRow label>
         <FileInput id="image" accept="image/*" />
       </FormRow>
 
