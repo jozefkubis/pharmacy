@@ -13,7 +13,7 @@ export async function getPharmacy() {
 }
 
 // MARK: pridanie novej polozky do databazy
-export async function insertPharmacyItem(newMedication) {
+export async function insertPharmacyItem(newMedication, id) {
   let imagePath = newMedication.image
 
   if (newMedication.image instanceof File) {
@@ -34,15 +34,32 @@ export async function insertPharmacyItem(newMedication) {
     }
   }
 
-  const { data, error } = await supabase
-    .from("pharmacy")
-    .insert([{ ...newMedication, image: imagePath }])
-    .select()
+  let query = supabase.from("pharmacy")
+
+  if (!id) {
+    query = query.insert([{ ...newMedication, image: imagePath }])
+  }
+
+  if (id) {
+    query = query.update({ ...newMedication, image: imagePath }).eq("id", id)
+  }
+
+  const { data, error } = await query.select().single()
 
   if (error) {
     console.error(error)
-    throw new Error("Store could not be created")
+    throw new Error("Store could not be saved!")
   }
+
+  // const { data, error } = await supabase
+  //   .from("pharmacy")
+  //   .insert([{ ...newMedication, image: imagePath }])
+  //   .select()
+
+  // if (error) {
+  //   console.error(error)
+  //   throw new Error("Store could not be created")
+  // }
 
   return data
 }

@@ -6,20 +6,40 @@ import Form from "../../ui/Form"
 import { useInsertItem } from "./useInsertItem"
 import { useForm } from "react-hook-form"
 import FormRow from "../../ui/FormRow"
+import { useUpdateItem } from "./useUpdateItem"
+import Select from "../../ui/Select"
 
-function CreateStoreForm() {
+function CreateStoreForm({ medicationToEdit = {}, setShowForm }) {
+  const { isInserting, insertItem } = useInsertItem()
+  const { isUpdating, updateItem } = useUpdateItem()
+  const { id: editId, ...editValues } = medicationToEdit
+  const isEditSession = Boolean(editId)
+  const isWorking = isInserting || isUpdating
+
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors },
-  } = useForm()
-
-  const { isInserting, insertItem } = useInsertItem()
+    // getValues,
+  } = useForm({
+    defaultValues: isEditSession ? editValues : {},
+  })
 
   function onSubmit(data) {
-    insertItem({ ...data, image: data.image[0] })
-    reset()
+    const image = typeof data.image === "string" ? data.image : data.image[0]
+
+    if (isEditSession)
+      updateItem(
+        { newMedicationData: { ...data, image: image }, id: editId },
+        {
+          onSuccess: () => {
+            reset()
+            setShowForm(false)
+          },
+        }
+      )
+    else insertItem({ ...data, image: image }, { onSuccess: () => reset() })
   }
 
   function onError(errors) {
@@ -32,7 +52,7 @@ function CreateStoreForm() {
         <Input
           type="number"
           id="code"
-          disabled={isInserting}
+          disabled={isWorking}
           {...register("code", {
             required: "This field is required",
           })}
@@ -43,7 +63,7 @@ function CreateStoreForm() {
         <Input
           type="text"
           id="name"
-          disabled={isInserting}
+          disabled={isWorking}
           {...register("name", {
             required: "This field is required",
           })}
@@ -51,21 +71,27 @@ function CreateStoreForm() {
       </FormRow>
 
       <FormRow label="Prescription" error={errors.prescription?.message}>
-        <Input
-          type="text"
+        <Select
           id="prescription"
-          disabled={isInserting}
+          disabled={isWorking}
+          defaultValue={isEditSession ? editValues.prescription : ""}
           {...register("prescription", {
-            required: "This field is required",
+            required: !isEditSession ? "This field is required" : false,
           })}
-        />
+        >
+          <option value="" disabled>
+            ...
+          </option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </Select>
       </FormRow>
 
       <FormRow label="Group of drugs" error={errors.description?.message}>
         <Textarea
           type="text"
           id="description"
-          disabled={isInserting}
+          disabled={isWorking}
           {...register("description", {
             required: "This field is required",
           })}
@@ -76,7 +102,7 @@ function CreateStoreForm() {
         <Input
           type="number"
           id="regularPrice"
-          disabled={isInserting}
+          disabled={isWorking}
           {...register("regularPrice", {
             required: "This field is required",
           })}
@@ -87,7 +113,7 @@ function CreateStoreForm() {
         <Input
           type="number"
           id="discount"
-          disabled={isInserting}
+          disabled={isWorking}
           {...register("discount", {
             required: "This field is required",
           })}
@@ -99,7 +125,7 @@ function CreateStoreForm() {
           id="image"
           accept="image/*"
           {...register("image", {
-            required: "This field is required",
+            required: isEditSession ? false : "This field is required",
           })}
         />
       </FormRow>
@@ -110,7 +136,9 @@ function CreateStoreForm() {
           Cancel
         </Button>
 
-        <Button disabled={isInserting}>Insert item</Button>
+        <Button disabled={isWorking}>
+          {isEditSession ? "Save changes" : "Add new item"}
+        </Button>
       </FormRow>
     </Form>
   )

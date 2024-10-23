@@ -2,6 +2,8 @@ import styled from "styled-components"
 import { formatCurrency } from "../../utils/helpers"
 import { useDeleteRow } from "./useDeleteRow"
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2"
+import { useState } from "react"
+import CreatePharmacyForm from "./CreatePharmacyForm"
 
 const TableRow = styled.div`
   display: grid;
@@ -55,6 +57,7 @@ const Span = styled.span`
 
 function PharmacyRow({ pharmacy }) {
   const { isDeleting, deleteRow } = useDeleteRow()
+  const [showForm, setShowForm] = useState(false)
 
   const {
     id: medicationId,
@@ -83,7 +86,7 @@ function PharmacyRow({ pharmacy }) {
         )}
 
         <Div>
-          <button>
+          <button onClick={() => setShowForm((show) => !show)}>
             <HiPencil />
           </button>
           <button>
@@ -94,6 +97,12 @@ function PharmacyRow({ pharmacy }) {
           </button>
         </Div>
       </TableRow>
+      {showForm && (
+        <CreatePharmacyForm
+          medicationToEdit={pharmacy}
+          setShowForm={setShowForm}
+        />
+      )}
     </>
   )
 }
