@@ -25,6 +25,7 @@ const Img = styled.img`
   object-fit: cover;
   object-position: center;
   transform: scale(1.5) translateX(-7px);
+  padding: 0rem 0.5rem;
 `
 
 const StoreItem = styled.div`
