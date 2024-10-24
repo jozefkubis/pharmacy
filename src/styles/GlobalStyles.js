@@ -27,6 +27,7 @@ const GlobalStyles = createGlobalStyle`
 
   --color-blue-100: #e0f2fe;
   --color-blue-700: #0369a1;
+  --color-green-50: #edf1ea;
   --color-green-100: #dcfce7;
   --color-green-700: #15803d;
   --color-yellow-100: #fef9c3;
@@ -40,7 +41,11 @@ const GlobalStyles = createGlobalStyle`
   --color-red-700: #b91c1c;
   --color-red-800: #991b1b;
 
+  // MARK: MOJE
   --backdrop-color: rgba(255, 255, 255, 0.1);
+  --button-color: #65A603;
+  --button-color-hover: #3B7302;
+  --color-table-header: #9bbf65;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
