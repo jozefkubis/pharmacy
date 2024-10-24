@@ -4,6 +4,7 @@ import { useDeleteRow } from "./useDeleteRow"
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2"
 import { useState } from "react"
 import CreatePharmacyForm from "./CreatePharmacyForm"
+import { useInsertItem } from "./useInsertItem"
 
 const TableRow = styled.div`
   display: grid;
@@ -57,6 +58,7 @@ const Span = styled.span`
 
 function PharmacyRow({ pharmacy }) {
   const { isDeleting, deleteRow } = useDeleteRow()
+  const { isInserting, insertItem } = useInsertItem()
   const [showForm, setShowForm] = useState(false)
 
   const {
@@ -69,6 +71,18 @@ function PharmacyRow({ pharmacy }) {
     discount,
     image,
   } = pharmacy
+
+  function handleDuplicate() {
+    insertItem({
+      code,
+      name: `copy of ${name}`,
+      prescription,
+      description,
+      regularPrice,
+      discount,
+      image,
+    })
+  }
 
   return (
     <>
@@ -89,7 +103,7 @@ function PharmacyRow({ pharmacy }) {
           <button onClick={() => setShowForm((show) => !show)}>
             <HiPencil />
           </button>
-          <button>
+          <button onClick={handleDuplicate} disabled={isInserting}>
             <HiSquare2Stack />
           </button>
           <button onClick={() => deleteRow(medicationId)} disabled={isDeleting}>
