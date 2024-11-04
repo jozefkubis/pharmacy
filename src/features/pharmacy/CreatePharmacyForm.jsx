@@ -9,7 +9,7 @@ import FormRow from "../../ui/FormRow"
 import { useUpdateItem } from "./useUpdateItem"
 import Select from "../../ui/Select"
 
-function CreateStoreForm({ medicationToEdit = {}, setShowForm }) {
+function CreateStoreForm({ medicationToEdit = {}, setShowForm, onCloseModal }) {
   const { isInserting, insertItem } = useInsertItem()
   const { isUpdating, updateItem } = useUpdateItem()
   const { id: editId, ...editValues } = medicationToEdit
@@ -36,10 +36,20 @@ function CreateStoreForm({ medicationToEdit = {}, setShowForm }) {
           onSuccess: () => {
             reset()
             setShowForm(false)
+            onCloseModal()
           },
         }
       )
-    else insertItem({ ...data, image: image }, { onSuccess: () => reset() })
+    else
+      insertItem(
+        { ...data, image: image },
+        {
+          onSuccess: () => {
+            reset()
+            onCloseModal()
+          },
+        }
+      )
   }
 
   function onError(errors) {
@@ -47,7 +57,10 @@ function CreateStoreForm({ medicationToEdit = {}, setShowForm }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       <FormRow label="Code" error={errors.code?.message}>
         <Input
           type="number"
@@ -131,8 +144,11 @@ function CreateStoreForm({ medicationToEdit = {}, setShowForm }) {
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
 
