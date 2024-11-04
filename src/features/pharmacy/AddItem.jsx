@@ -7,16 +7,16 @@ function AddItem() {
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   return (
-    <div>
-      <Button onClick={() => setIsOpenModal(!isOpenModal)}>
-        {isOpenModal ? "Close" : "Add new medication"}
-      </Button>
-      {isOpenModal && (
-        <Modal onClose={() => setIsOpenModal(false)}>
-          <CreatePharmacyForm onCloseModal={() => setIsOpenModal(false)} />
-        </Modal>
-      )}
-    </div>
+    <Modal>
+      <Modal.Open opens="item-form">
+        <Button onClick={() => setIsOpenModal(!isOpenModal)}>
+          Add new medication
+        </Button>
+      </Modal.Open>
+      <Modal.Window name="item-form">
+        <CreatePharmacyForm />
+      </Modal.Window>
+    </Modal>
   )
 }
 
