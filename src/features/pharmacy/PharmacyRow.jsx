@@ -6,18 +6,19 @@ import CreatePharmacyForm from "./CreatePharmacyForm"
 import { useInsertItem } from "./useInsertItem"
 import Modal from "../../ui/Modal"
 import ConfirmDelete from "../../ui/ConfirmDelete"
+import Table from "../../ui/Table"
 
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 0.6fr 1.5fr 1.5fr 1fr 1.5fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
-  padding: 1.4rem 2.4rem;
+// const TableRow = styled.div`
+//   display: grid;
+//   grid-template-columns: 1fr 0.6fr 1.5fr 1.5fr 1fr 1.5fr 1fr 1fr;
+//   column-gap: 2.4rem;
+//   align-items: center;
+//   padding: 1.4rem 2.4rem;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`
+//   &:not(:last-child) {
+//     border-bottom: 1px solid var(--color-grey-100);
+//   }
+// `
 
 const Img = styled.img`
   display: block;
@@ -86,7 +87,7 @@ function PharmacyRow({ pharmacy }) {
   }
 
   return (
-    <TableRow role="row">
+    <Table.Row>
       <Img src={image} />
       <StoreItem>{code}</StoreItem>
       <Div>{name}</Div>
@@ -128,7 +129,7 @@ function PharmacyRow({ pharmacy }) {
           </Modal.Window>
         </Modal>
       </Div>
-    </TableRow>
+    </Table.Row>
   )
 }
 
