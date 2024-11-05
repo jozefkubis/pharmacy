@@ -2,9 +2,10 @@ import styled from "styled-components"
 import { formatCurrency } from "../../utils/helpers"
 import { useDeleteRow } from "./useDeleteRow"
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2"
-import { useState } from "react"
 import CreatePharmacyForm from "./CreatePharmacyForm"
 import { useInsertItem } from "./useInsertItem"
+import Modal from "../../ui/Modal"
+import ConfirmDelete from "../../ui/ConfirmDelete"
 
 const TableRow = styled.div`
   display: grid;
@@ -60,7 +61,6 @@ const Span = styled.span`
 function PharmacyRow({ pharmacy }) {
   const { isDeleting, deleteRow } = useDeleteRow()
   const { isInserting, insertItem } = useInsertItem()
-  const [showForm, setShowForm] = useState(false)
 
   const {
     id: medicationId,
@@ -86,39 +86,49 @@ function PharmacyRow({ pharmacy }) {
   }
 
   return (
-    <>
-      <TableRow role="row">
-        <Img src={image} />
-        <StoreItem>{code}</StoreItem>
-        <Div>{name}</Div>
-        <Div>{prescription === true ? "Yes" : "No"}</Div>
-        <Div>{description}</Div>
-        <Price>{formatCurrency(regularPrice)}</Price>
-        {discount ? (
-          <Discount>{formatCurrency(discount)}</Discount>
-        ) : (
-          <Span>&mdash;</Span>
-        )}
-
-        <Div>
-          <button onClick={() => setShowForm((show) => !show)}>
-            <HiPencil />
-          </button>
-          <button onClick={handleDuplicate} disabled={isInserting}>
-            <HiSquare2Stack />
-          </button>
-          <button onClick={() => deleteRow(medicationId)} disabled={isDeleting}>
-            <HiTrash />
-          </button>
-        </Div>
-      </TableRow>
-      {showForm && (
-        <CreatePharmacyForm
-          medicationToEdit={pharmacy}
-          setShowForm={setShowForm}
-        />
+    <TableRow role="row">
+      <Img src={image} />
+      <StoreItem>{code}</StoreItem>
+      <Div>{name}</Div>
+      <Div>{prescription === true ? "Yes" : "No"}</Div>
+      <Div>{description}</Div>
+      <Price>{formatCurrency(regularPrice)}</Price>
+      {discount ? (
+        <Discount>{formatCurrency(discount)}</Discount>
+      ) : (
+        <Span>&mdash;</Span>
       )}
-    </>
+
+      <Div>
+        <button onClick={handleDuplicate} disabled={isInserting}>
+          <HiSquare2Stack />
+        </button>
+
+        <Modal>
+          <Modal.Open opens="edit">
+            <button>
+              <HiPencil />
+            </button>
+          </Modal.Open>
+          <Modal.Window name="edit">
+            <CreatePharmacyForm medicationToEdit={pharmacy} />
+          </Modal.Window>
+
+          <Modal.Open opens="delete">
+            <button>
+              <HiTrash />
+            </button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="medication"
+              disabled={isDeleting}
+              onConfirm={() => deleteRow(medicationId)}
+            />
+          </Modal.Window>
+        </Modal>
+      </Div>
+    </TableRow>
   )
 }
 
