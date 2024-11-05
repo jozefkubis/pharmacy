@@ -49,9 +49,12 @@ function PharmacyTable() {
         <Div></Div>
       </Table.Header>
 
-      {pharmacyData.map((pharmacy) => (
-        <PharmacyRow key={pharmacy.id} pharmacy={pharmacy} />
-      ))}
+      <Table.Body
+        data={pharmacyData}
+        render={(pharmacy) => (
+          <PharmacyRow key={pharmacy.id} pharmacy={pharmacy} />
+        )}
+      />
     </Table>
   )
 }
