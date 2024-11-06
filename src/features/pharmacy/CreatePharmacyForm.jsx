@@ -9,7 +9,7 @@ import FormRow from "../../ui/FormRow"
 import { useUpdateItem } from "./useUpdateItem"
 import Select from "../../ui/Select"
 
-function CreateStoreForm({ medicationToEdit = {}, setShowForm, onCloseModal }) {
+function CreateStoreForm({ medicationToEdit = {}, onCloseModal }) {
   const { isInserting, insertItem } = useInsertItem()
   const { isUpdating, updateItem } = useUpdateItem()
   const { id: editId, ...editValues } = medicationToEdit
@@ -35,7 +35,6 @@ function CreateStoreForm({ medicationToEdit = {}, setShowForm, onCloseModal }) {
         {
           onSuccess: () => {
             reset()
-            setShowForm(false)
             onCloseModal()
           },
         }
