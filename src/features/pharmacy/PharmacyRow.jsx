@@ -117,7 +117,7 @@ function PharmacyRow({ pharmacy }) {
               </Modal.Open>
             </Menus.List>
             <Modal.Window name="edit">
-              <CreatePharmacyForm pharmacy={pharmacy} />
+              <CreatePharmacyForm medicationToEdit={pharmacy} />
             </Modal.Window>
 
             <Modal.Window name="delete">
