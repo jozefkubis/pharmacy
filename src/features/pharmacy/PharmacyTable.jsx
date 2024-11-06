@@ -3,6 +3,7 @@ import { useReadAllRows } from "./useReadAllRows"
 import Spinner from "../../ui/Spinner"
 import PharmacyRow from "./PharmacyRow"
 import Table from "../../ui/Table"
+import Menus from "../../ui/Menus"
 
 // const Table = styled.div`
 //   border: 1px solid var(--color-grey-200);
@@ -37,25 +38,27 @@ function PharmacyTable() {
   if (isLoading) return <Spinner />
 
   return (
-    <Table columns="1fr 0.6fr 1.5fr 1.5fr 1fr 1.5fr 1fr 1fr">
-      <Table.Header role="row">
-        <Div></Div>
-        <Div>Code</Div>
-        <Div>Medication</Div>
-        <Div>Prescription</Div>
-        <Div>Group</Div>
-        <Div>Price</Div>
-        <Div>Discount</Div>
-        <Div></Div>
-      </Table.Header>
+    <Menus>
+      <Table columns="1fr 0.6fr 1.5fr 1.5fr 1fr 1.5fr 1fr 1fr">
+        <Table.Header role="row">
+          <Div></Div>
+          <Div>Code</Div>
+          <Div>Medication</Div>
+          <Div>Prescription</Div>
+          <Div>Group</Div>
+          <Div>Price</Div>
+          <Div>Discount</Div>
+          <Div></Div>
+        </Table.Header>
 
-      <Table.Body
-        data={pharmacyData}
-        render={(pharmacy) => (
-          <PharmacyRow key={pharmacy.id} pharmacy={pharmacy} />
-        )}
-      />
-    </Table>
+        <Table.Body
+          data={pharmacyData}
+          render={(pharmacy) => (
+            <PharmacyRow key={pharmacy.id} pharmacy={pharmacy} />
+          )}
+        />
+      </Table>
+    </Menus>
   )
 }
 

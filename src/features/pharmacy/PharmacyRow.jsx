@@ -7,6 +7,7 @@ import { useInsertItem } from "./useInsertItem"
 import Modal from "../../ui/Modal"
 import ConfirmDelete from "../../ui/ConfirmDelete"
 import Table from "../../ui/Table"
+import Menus from "../../ui/Menus"
 
 // const TableRow = styled.div`
 //   display: grid;
@@ -101,32 +102,32 @@ function PharmacyRow({ pharmacy }) {
       )}
 
       <Div>
-        <button onClick={handleDuplicate} disabled={isInserting}>
-          <HiSquare2Stack />
-        </button>
-
         <Modal>
-          <Modal.Open opens="edit">
-            <button>
-              <HiPencil />
-            </button>
-          </Modal.Open>
-          <Modal.Window name="edit">
-            <CreatePharmacyForm medicationToEdit={pharmacy} />
-          </Modal.Window>
+          <Menus.Menu>
+            <Menus.Toggle id={medicationId} />
+            <Menus.List id={medicationId}>
+              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
+                Duplicate
+              </Menus.Button>
+              <Modal.Open opens="edit">
+                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+              </Modal.Open>
+              <Modal.Open opens="delete">
+                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              </Modal.Open>
+            </Menus.List>
+            <Modal.Window name="edit">
+              <CreatePharmacyForm pharmacy={pharmacy} />
+            </Modal.Window>
 
-          <Modal.Open opens="delete">
-            <button>
-              <HiTrash />
-            </button>
-          </Modal.Open>
-          <Modal.Window name="delete">
-            <ConfirmDelete
-              resourceName="medication"
-              disabled={isDeleting}
-              onConfirm={() => deleteRow(medicationId)}
-            />
-          </Modal.Window>
+            <Modal.Window name="delete">
+              <ConfirmDelete
+                resourceName="cabins"
+                onConfirm={() => deleteRow(medicationId)}
+                disabled={isDeleting}
+              />
+            </Modal.Window>
+          </Menus.Menu>
         </Modal>
       </Div>
     </Table.Row>
